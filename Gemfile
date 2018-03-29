@@ -43,8 +43,11 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  # Added for emacs robe dependency
   gem 'pry'
   gem 'pry-doc'
+
+  gem 'rspec-rails', '~>3.7'
 end
 
 group :development do
