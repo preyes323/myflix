@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Video do
-  let(:video) do
+  let(:category) do
     Category.create name: 'Comedy'
-    video = Video.new title: 'Monk', description: 'good video', category_id: Category.first.id
+  end
+  
+  let(:video) do
+    video = Video.new title: 'Monk', description: 'good video', category: category
     video.save!
 
     video
@@ -17,5 +20,15 @@ RSpec.describe Video do
     relation = Video.reflect_on_association(:category).macro
     
     expect(relation).to eq(:belongs_to)
+  end
+
+  it 'does not save if there is no title' do
+    video = Video.create description: 'good video', category: category
+    expect(Video.count).to eq(0)
+  end
+
+  it 'does not save if there is no description' do
+    video = Video.create title: 'Monk', category: category
+    expect(Video.count).to eq(0)
   end
 end
