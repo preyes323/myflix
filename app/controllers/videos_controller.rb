@@ -8,6 +8,7 @@ class VideosController < ApplicationController
   end
 
   def search
-    @results = Video.search_by_title params:
+    @results = Video.search_by_title params[:search_term]
+    byebug
   end
 end

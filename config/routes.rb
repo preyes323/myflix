@@ -3,7 +3,8 @@ Rails.application.routes.draw do
 
   get 'ui(/:action)', controller: 'ui'
   get '/home' => 'videos#index', as: 'home'
+  get '/videos/search' => 'videos#search', as: 'search'
 
-  resources :videos, only: %i[index show search]
+  resources :videos, only: %i[index show]
   resources :categories, only: :show
 end
