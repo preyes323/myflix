@@ -23,5 +23,12 @@ videos = Video.create([
                           small_cover_url: '/tmp/futurama.jpg',
                           large_cover_url: 'http://via.placeholder.com/665x375/E61E7F/FFFFFF',
                           category_id: 2
+                        },
+                        {
+                         title: 'Family Guy',
+                         description: 'Family Guy is an American animated sitcom created by Seth MacFarlane for the Fox Broadcasting Company. The series centers on the Griffins, a family consisting of parents Peter and Lois; their children, Meg, Chris, and Stewie; and their anthropomorphic pet dog, Brian.',
+                         small_cover_url: '/tmp/family_guy.jpg',
+                         large_cover_url: 'http://via.placeholder.com/665x375/E61E7F/FFFFFF',
+                         category_id: 1
                         }
                       ])
