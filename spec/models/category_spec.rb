@@ -31,9 +31,9 @@ RSpec.describe Category do
     end
     context 'with the same created at' do
       it 'sorts by created at and then sorts alphabetically by title' do
-        v1 = Video.create title: 'mank', description: 'good movie', category: @category
-        v2 = Video.create title: 'mink', description: 'good movie', category: @category
-        v3 = Video.create title: 'monk', description: 'good movie', category: @category
+        v1 = Video.create title: 'mank', description: 'good movie', category: @category, created_at: 1.day.ago
+        v2 = Video.create title: 'mink', description: 'good movie', category: @category, created_at: 1.day.ago
+        v3 = Video.create title: 'monk', description: 'good movie', category: @category, created_at: 1.day.ago
 
         results = @category.recent_videos
         expect(results).to eq([v1, v2, v3])
