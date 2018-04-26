@@ -13,5 +13,5 @@ Rails.application.routes.draw do
   end
   
   resources :categories, only: :show
-  resources :users, only: %[new]
+  resources :users, only: %i[new create]
 end

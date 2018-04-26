@@ -1,19 +1,22 @@
-%section.sign_in.container
+%section.register.container
   .row
     .col-sm-10.col-sm-offset-1
-      %form.sign_in
+      %form.form-horizontal
         %header
-          %h1 Sign in
+          %h1 Register
         %fieldset
           .form-group
-            %label Email Address
-            .row
-              .col-sm-4
-                %input.form-control(type="email")
+            %label.control-label.col-sm-2 Email Address
+            .col-sm-6
+              %input.form-control(type="email")
           .form-group
-            %label Password
-            .row
-              .col-sm-4
-                %input.form-control(type="password")
-        %fieldset.form-group.action
-          %input(type="submit" value="Sign in" class="btn btn-default")
+            %label.control-label.col-sm-2 Password
+            .col-sm-6
+              %input.form-control(type="password")
+          .form-group
+            %label.control-label.col-sm-2 Full Name
+            .col-sm-6
+              %input.form-control(type="text")
+        %fieldset.actions.control-group.col-sm-offset-2
+          .controls
+            %input(type="submit" value="Sign Up" class="btn btn-default")
