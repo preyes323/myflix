@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   root 'pages#front_page'
   
   get 'ui(/:action)', controller: 'ui'
-  get '/home' => 'videos#index', as: 'home'
-  get '/login' => 'sessions#new', as: 'login'
+  get '/home'    => 'videos#index', as: 'home'
+  get '/login'   => 'sessions#new', as: 'login'
+  post '/login'  => 'sessions#create'
   
   resources :videos, only: %i[index show] do
     collection do
@@ -13,5 +14,5 @@ Rails.application.routes.draw do
   end
   
   resources :categories, only: :show
-  resources :users, only: %i[new create]
+  resources :users, only: %i[index new create]
 end
