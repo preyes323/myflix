@@ -18,6 +18,6 @@ class ApplicationController < ActionController::Base
 
   def not_allowed
     flash[:danger] = 'You are not allowed to do that'
-    redirect_to root_path
+    redirect_to login_path
   end
 end
