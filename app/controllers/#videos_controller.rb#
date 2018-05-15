@@ -9,7 +9,7 @@ class VideosController < ApplicationController
     @video = Video.find params[:id]
     @video_review = VideoReview.new
     @reviews = VideoReview.where(video_id: @video.id)
-    @average_rating = "%.1f" % VideoReview.average_rating(@video) if @reviews.count > 0
+f    @average_rating = VideoReview.average_rating(@video.id)
   end
 
   def search

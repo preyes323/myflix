@@ -20,11 +20,6 @@ RSpec.describe VideosController do
         expect(assigns(:reviews)).to eq([review])
       end
       
-      it 'sets @video_review' do
-        get :show, params: { id: video.id }
-        expect(assigns(:video_review)).to be_a_new(VideoReview)
-      end
-      
       it 'sets @average_rating to nil if no reviews' do
         get :show, params: { id: video.id }
         expect(assigns(:average_rating)).to be_nil
@@ -34,8 +29,7 @@ RSpec.describe VideosController do
         review1 = Fabricate(:video_review, video: video, rating: 3)
         review2 = Fabricate(:video_review, video: video, rating: 3)
         review3 = Fabricate(:video_review, video: video, rating: 3)
-        
-        get :show, params: { id: video.id }
+
         average_rating = "%.1f" % ((review1.rating + review2.rating + review3.rating) * 1.0 / 3)
         expect(assigns(:average_rating)).to eq(average_rating)
       end
