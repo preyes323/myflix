@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     collection do
       get :search, to: "videos#search"
     end
+
+    member do
+      post :review, to: "videos#review"
+    end
   end
   
   resources :categories, only: :show

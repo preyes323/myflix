@@ -63,5 +63,46 @@ RSpec.describe VideosController do
   end
 
   describe 'POST review' do
+    before do
+      @user = Fabricate(:user)
+      session[:user] = @user.id
+    end
+    
+    it 'sets @video_review' do
+      video = Fabricate(:video)
+      post :review, params: { video_review: Fabricate.attributes_for(:video_review), id: video.id }, xhr: true
+      expect(assigns(:video_review)).to be_instance_of(VideoReview)
+    end
+    
+    it 'associates @video_review to logged in user' do
+      video = Fabricate(:video)
+      post :review, params: { video_review: Fabricate.attributes_for(:video_review), id: video.id }, xhr: true
+      expect(VideoReview.first.user).to eq(@user)
+    end
+    
+    it 'associates @video_review to video' do
+      video = Fabricate(:video)
+      post :review, params: { video_review: Fabricate.attributes_for(:video_review), id: video.id }, xhr: true
+      expect(VideoReview.first.video).to eq(video)
+    end
+    
+    it 'responds with js content for valid review' do
+      video = Fabricate(:video)
+      post :review, params: { video_review: Fabricate.attributes_for(:video_review), id: video.id }, xhr: true
+      expect(response.content_type).to eq('text/javascript')
+    end
+
+    it 'informs user of successfully adding the review' do
+      video = Fabricate(:video)
+      post :review, params: { video_review: Fabricate.attributes_for(:video_review), id: video.id }, xhr: true
+      expect(flash[:success]).to_not be_nil      
+    end
+
+    it 'informs user of missing detail for invalid review' do
+      session[:user] = nil
+      video = Fabricate(:video)
+      post :review, params: { video_review: Fabricate.attributes_for(:video_review), id: video.id }, xhr: true
+      expect(flash[:danger]).to_not be_nil
+    end
   end
 end
