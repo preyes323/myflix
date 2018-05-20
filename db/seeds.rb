@@ -39,3 +39,5 @@ user2 = User.create email: 'qux@baz.com', password: '123456', full_name: 'Paolo'
 
 VideoReview.create user: user1, video: Video.first, rating: 3, review: 'The best series'
 VideoReview.create user: user2, video: Video.first, rating: 4, review: 'Really the best series'
+
+MyQueue.create video: Video.first, user: user1, position: 1
