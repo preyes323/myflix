@@ -1,0 +1,7 @@
+$("section.reviews .alert").remove();
+$("section.reviews").prepend("#{escape_javascript(render 'shared/messages')}");
+$("section.reviews header h3").html('User Reviews (#{ h @reviews.count})');
+
+- if @video_review.valid?
+  $("section.reviews ul").prepend("#{escape_javascript(render partial: 'video_review', locals: { review: @video_review })}");
+

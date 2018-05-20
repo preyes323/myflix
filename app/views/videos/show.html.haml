@@ -16,7 +16,7 @@
 %section.reviews.container
   .row
     .col-sm-10.col-sm-offset-1
-      = form_for @video_review, url: review_video_path(@video) do |f|
+      = form_for @video_review, url: review_video_path(@video), remote: true  do |f|
         %fieldset
           .form-group
             %label Rate this video
@@ -35,11 +35,4 @@
         %h3 User Reviews (#{h @reviews.count})
       %ul
         - @reviews.each do |review|
-          %article.review
-            %li.row
-              .col-sm-2
-                %span Rating: #{h review.rating} / 5
-                %p by <a href="">#{h review.user.full_name}</a>
-              .col-sm-8
-                %p #{h review.review}
-        
+          = render partial: 'video_review', locals: { review: review }

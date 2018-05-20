@@ -26,7 +26,8 @@ class VideosController < ApplicationController
     else
       flash.now[:danger] = 'There was a problem adding your review.'
     end
-    
+
+    @reviews = VideoReview.where(video_id: @video.id)
     respond_to do |format|
       format.js
     end
