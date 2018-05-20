@@ -20,4 +20,5 @@ Rails.application.routes.draw do
   
   resources :categories, only: :show
   resources :users, only: %i[index new create]
+  resources :my_queues, only: %i[index]
 end
