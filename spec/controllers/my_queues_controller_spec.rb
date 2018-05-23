@@ -2,10 +2,15 @@ require 'rails_helper'
 
 RSpec.describe MyQueuesController do
   describe 'GET index' do
-    it 'sets @my_queues' do
-      session[:user] = Fabricate(:user).id
+    it 'sets @my_queues for the current user' do
+      user = Fabricate(:user)
+      session[:user] = user.id
+      video1 = Fabricate(:my_queue, user: user)
+      video2 = Fabricate(:my_queue, user: user)
+      queue = [video1, video2]
       get :index
-      expect(assigns(:my_queues)).to eq(MyQueue.all)
+      
+      expect(assigns(:my_queues)).to eq(queue)
     end
     
     it 'redirects to unauthenticated users to login page' do
@@ -24,7 +29,7 @@ RSpec.describe MyQueuesController do
         video = Fabricate(:video)
         post :create, params: { video: video }
 
-        expect(assigns(:my_queue)).to be_a_new(MyQueue)
+        expect(assigns(:my_queue)).to be_instance_of(MyQueue)
       end
       
       it 'adds video to users queue' do
@@ -34,8 +39,29 @@ RSpec.describe MyQueuesController do
         expect(MyQueue.count).to eq(1)
       end
       
-      it 'adds newly added video as last in queue by default'
-      it 'redirects to videos index view on adding'      
+      it 'adds newly added video as last in queue by default' do
+        video = Fabricate(:video)
+        post :create, params: { video: video }
+        video2 = Fabricate(:video)
+        post :create, params: { video: video2 }
+
+        expect(MyQueue.last.video).to eq(video2)
+      end
+      
+      it 'redirects to my_queues index view on adding' do
+        video = Fabricate(:video)
+        post :create, params: { video: video }
+
+        expect(response).to redirect_to(my_queues_path)
+      end
+      
+      it 're-renders video page if video is already in the users queue' do
+        video = Fabricate(:video)
+        post :create, params: { video: video }
+        post :create, params: { video: video }
+
+        expect(response).to render_template('videos/show')
+      end
     end
 
     it 'redirects to login page with unauthenticated user' do
