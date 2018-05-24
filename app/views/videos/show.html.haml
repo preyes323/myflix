@@ -11,8 +11,9 @@
               = "Rating: #{h @average_rating}/5.0"
             - else
               = "No Ratings"
-        %p= @video.description
-          = link_to my_queues_path
+        %p
+          = @video.description
+          = link_to("+ My Queue", my_queues_path(video: @video), method: "post", class: "btn btn-default")
 
 %section.reviews.container
   .row
@@ -36,4 +37,4 @@
         %h3 User Reviews (#{h @reviews.count})
       %ul
         - @reviews.each do |review|
-          = render partial: 'video_review', locals: { review: review }
+          = render partial: 'videos/video_review', locals: { review: review }

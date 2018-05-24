@@ -7,6 +7,7 @@ RSpec.describe MyQueuesController do
       session[:user] = user.id
       video1 = Fabricate(:my_queue, user: user)
       video2 = Fabricate(:my_queue, user: user)
+      Fabricate(:my_queue)
       queue = [video1, video2]
       get :index
       
@@ -54,13 +55,31 @@ RSpec.describe MyQueuesController do
 
         expect(response).to redirect_to(my_queues_path)
       end
-      
-      it 're-renders video page if video is already in the users queue' do
-        video = Fabricate(:video)
-        post :create, params: { video: video }
-        post :create, params: { video: video }
 
-        expect(response).to render_template('videos/show')
+      context 'with video already in the users queue' do
+        let(:video) { Fabricate(:video) }
+        
+        before do
+          @review = Fabricate(:video_review, video: video)
+          post :create, params: { video: video }
+          post :create, params: { video: video }          
+        end
+        
+        it 're-renders video page if video is already in the users queue' do
+          expect(response).to render_template('videos/show')
+        end
+
+        it 'sets @video if video is already in the users queue' do
+          expect(assigns(:video)).to eq(video)
+        end
+
+        it 'sets @video_review' do
+          expect(assigns(:video_review)).to be_a_new(VideoReview)
+        end
+        
+        it 'sets @reviews' do
+          expect(assigns(:reviews)).to eq([@review])
+        end
       end
     end
 
