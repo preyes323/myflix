@@ -6,5 +6,6 @@ RSpec.describe MyQueue, type: :model do
   it { should validate_presence_of(:position) }
   it { should validate_uniqueness_of(:video_id).scoped_to(:user_id) }
   it { should validate_uniqueness_of(:position).scoped_to(:user_id) }
+  it { should validate_numericality_of(:position).only_integer }
 end
   

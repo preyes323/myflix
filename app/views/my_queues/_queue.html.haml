@@ -1,6 +1,7 @@
 %tr
+  = hidden_field_tag "queue_items[][id]", queue.id
   %td
-    %input.form-control(type="text" value="#{h queue.position}")
+    = text_field_tag "queue_items[][position]", queue.position, class: "form-control"
   %td
     = link_to queue.video.title, video_path(queue.video)
   %td
@@ -15,5 +16,5 @@
   %td
     = link_to "TV Shows"
   %td
-    = link_to "", method: :post do
+    = link_to my_queue_path(queue), method: :delete do
       %i.glyphicon.glyphicon-remove
