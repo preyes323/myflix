@@ -22,12 +22,12 @@ class MyQueuesController < ApplicationController
   end
 
   def update_queue
-    params[:queue_items].each do |queue_item_data|
-      queue_item = MyQueue.find queue_item_data['id']
-      queue_item.update_attribute('position', queue_item_data['position'])
+    begin
+      update_queue_items
+      current_user.normalize_my_queue_positions
+    rescue ActiveRecord::RecordInvalid => error
+      flash[:danger] = 'Invalid position value'
     end
-
-    current_user.normalize_my_queue_positions
 
     redirect_to my_queues_path
   end
@@ -35,6 +35,18 @@ class MyQueuesController < ApplicationController
   def destroy
     queue_item = MyQueue.find(params[:id])
     queue_item.destroy if queue_item.user == current_user
+    current_user.normalize_my_queue_positions
     redirect_to my_queues_path
+  end
+
+  private
+
+  def update_queue_items
+    ActiveRecord::Base.transaction do
+      params[:queue_items].each do |queue_item_data|
+        queue_item = MyQueue.find queue_item_data['id']
+        queue_item.update_attributes! position: queue_item_data['position'], rating: queue_item_data['rating'] if queue_item.user == current_user
+      end
+    end    
   end
 end

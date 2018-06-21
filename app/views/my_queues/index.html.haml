@@ -16,5 +16,19 @@
                   %th(width="15%") Remove
               %tbody
                 - @my_queues.each do |queue|
-                  = render partial: 'queue', locals: { queue: queue }
+                  %tr
+                    = hidden_field_tag "queue_items[][id]", queue.id
+                    %td
+                      = text_field_tag "queue_items[][position]", queue.position, class: "form-control"
+                    %td
+                      = link_to queue.video_title, video_path(queue.video)
+                    %td
+                      = button_to "Play", nil, class: "btn btn-default"
+                    %td
+                      = select_tag "queue_items[][rating]", options_for_video_reviews(queue.rating), include_blank: true, class: "form-control"
+                    %td
+                      = link_to queue.category_name, category_path(queue.category)
+                    %td
+                      = link_to my_queue_path(queue), method: :delete do
+                        %i.glyphicon.glyphicon-remove
             = submit_tag "Update Instant Queue", class: "btn btn-default"
