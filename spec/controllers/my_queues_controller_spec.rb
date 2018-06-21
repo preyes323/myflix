@@ -4,7 +4,7 @@ RSpec.describe MyQueuesController do
   describe 'GET index' do
     it 'sets @my_queues for the current user' do
       user = Fabricate(:user)
-      session[:user] = user.id
+      set_current_user(user)
       video1 = Fabricate(:my_queue, user: user)
       video2 = Fabricate(:my_queue, user: user)
       Fabricate(:my_queue)
@@ -13,18 +13,15 @@ RSpec.describe MyQueuesController do
       
       expect(assigns(:my_queues)).to eq(queue)
     end
-    
-    it 'redirects to unauthenticated users to login page' do
-      get :index
-      expect(response).to redirect_to login_path
+
+    it_behaves_like 'require login' do
+      let(:action) { get :index }
     end
   end
 
   describe 'POST create' do
     context 'with authenticated user' do
-      before do
-        session[:user] = Fabricate(:user).id
-      end
+      before { set_current_user }
       
       it 'sets @my_queue' do
         video = Fabricate(:video)
@@ -87,7 +84,7 @@ RSpec.describe MyQueuesController do
       before do
         @user = Fabricate(:user)
         video = Fabricate(:video)
-        session[:user] = @user.id
+        set_current_user(@user)
         @my_queue = Fabricate(:my_queue, user: @user, video: video, position: 1)
       end
       
@@ -117,19 +114,21 @@ RSpec.describe MyQueuesController do
         expect(MyQueue.first.position).to eq(1)
       end
     end
-    
-    it 'redirects to login page with unauthenticated user' do
-      video = Fabricate(:video)
-      post :create, params: { video: video }
-      expect(response).to redirect_to login_path
+
+    it_behaves_like 'require login' do
+      let(:action) do
+        video = Fabricate(:video)
+        post :create, params: { video: video }
+      end
     end
   end
 
   describe 'POST update_queue' do
     context 'with valid input' do
+      let(:user1) { Fabricate(:user) }
+      before { set_current_user(user1) }
+      
       it 'redirects to the my queues page' do
-        user1 = Fabricate(:user)
-        session[:user] = user1.id
         queue_item1 = Fabricate(:my_queue, user: user1, position: 1)
         queue_item2 = Fabricate(:my_queue, user: user1, position: 2)
 
@@ -140,8 +139,6 @@ RSpec.describe MyQueuesController do
       end
       
       it 'reorders the queue items' do
-        user1 = Fabricate(:user)
-        session[:user] = user1.id
         queue_item1 = Fabricate(:my_queue, user: user1, position: 1)
         queue_item2 = Fabricate(:my_queue, user: user1, position: 2)
 
@@ -152,8 +149,6 @@ RSpec.describe MyQueuesController do
       end
       
       it 'normalizes the position numbers' do
-        user1 = Fabricate(:user)
-        session[:user] = user1.id
         queue_item1 = Fabricate(:my_queue, user: user1, position: 1)
         queue_item2 = Fabricate(:my_queue, user: user1, position: 2)
 
@@ -165,9 +160,10 @@ RSpec.describe MyQueuesController do
     end
     
     context 'with invalid input' do
+      let(:user1) { Fabricate(:user) }
+      before { set_current_user(user1) }
+      
       it 'redirects to the my queue page' do
-        user1 = Fabricate(:user)
-        session[:user] = user1.id
         queue_item1 = Fabricate(:my_queue, user: user1, position: 1)
         queue_item2 = Fabricate(:my_queue, user: user1, position: 2)
 
@@ -178,8 +174,6 @@ RSpec.describe MyQueuesController do
       end
       
       it 'sets the flash error message' do
-        user1 = Fabricate(:user)
-        session[:user] = user1.id
         queue_item1 = Fabricate(:my_queue, user: user1, position: 1)
         queue_item2 = Fabricate(:my_queue, user: user1, position: 2)
 
@@ -190,8 +184,6 @@ RSpec.describe MyQueuesController do
       end
       
       it 'does not change the queue items' do
-        user1 = Fabricate(:user)
-        session[:user] = user1.id
         queue_item1 = Fabricate(:my_queue, user: user1, position: 1)
         queue_item2 = Fabricate(:my_queue, user: user1, position: 2)
 
@@ -218,7 +210,7 @@ RSpec.describe MyQueuesController do
     context 'with queue items that do not belong to the current user' do
       it 'does not change the queue items' do
         user1 = Fabricate(:user)
-        session[:user] = user1.id
+        set_current_user(user1)
         user2 = Fabricate(:user)
         queue_item1 = Fabricate(:my_queue, user: user1, position: 1)
         queue_item2 = Fabricate(:my_queue, user: user2, position: 1)
