@@ -12,4 +12,8 @@ class User < ApplicationRecord
       queue_item.update_attribute('position', idx + 1)
     end
   end
+
+  def queued_video?(video)
+    my_queues.map(&:video).include?(video)
+  end
 end

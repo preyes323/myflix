@@ -45,10 +45,6 @@ group :development, :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'launchy'
-  # Added for emacs robe dependency
-  gem 'pry'
-  gem 'pry-doc'
-
   gem 'rspec-rails', '~>3.7'
 end
 

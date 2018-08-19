@@ -13,7 +13,7 @@
               = "No Ratings"
         %p
           = @video.description
-          = link_to("+ My Queue", my_queues_path(video: @video), method: "post", class: "btn btn-default")
+          = link_to("+ My Queue", my_queues_path(video: @video), method: "post", class: "btn btn-default") unless current_user.queued_video?(@video)
 
 %section.reviews.container
   .row
