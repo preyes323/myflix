@@ -41,4 +41,18 @@ RSpec.describe UsersController do
       end
     end
   end
+
+  describe 'GET show/:id' do
+    it_behaves_like 'require login' do
+      let(:action) { get :show, params: { id: 3 } }
+    end
+    
+    it 'sets @user' do
+      alice = Fabricate(:user)
+      set_current_user(alice)
+
+      get :show, params: { id: alice.id }
+      expect(assigns(:user)).to eq(alice)
+    end
+  end
 end

@@ -20,6 +20,6 @@ Rails.application.routes.draw do
   end
   
   resources :categories, only: :show
-  resources :users, only: %i[index new create]
+  resources :users, only: %i[index new create show]
   resources :my_queues, only: %i[index create destroy]
 end
