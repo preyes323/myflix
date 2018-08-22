@@ -22,4 +22,6 @@ Rails.application.routes.draw do
   resources :categories, only: :show
   resources :users, only: %i[index new create show]
   resources :my_queues, only: %i[index create destroy]
+
+  get '/people' => 'relationships#index', as: 'people'
 end
