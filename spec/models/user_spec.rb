@@ -22,4 +22,26 @@ RSpec.describe User do
       expect(user.queued_video?(video)).to be false
     end
   end
+
+  describe '#can_follow?' do
+    it 'returns true if the current user does not have following relationship with another user' do
+      alice = Fabricate(:user)
+      bob = Fabricate(:user)
+
+      expect(alice.can_follow?(bob)).to be true
+    end
+    
+    it 'returns false if the current user has a following relationship with another user' do
+      alice = Fabricate(:user)
+      bob = Fabricate(:user)
+      Fabricate(:relationship, leader: bob, follower: alice)
+
+      expect(alice.can_follow?(bob)).to be false
+    end
+
+    it 'returns false if the current user is the other user' do
+      alice = Fabricate(:user)
+      expect(alice.can_follow?(alice)).to be false
+    end
+  end
 end

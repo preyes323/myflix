@@ -2,6 +2,8 @@ class User < ApplicationRecord
   has_many :video_reviews
   has_many :my_queues, -> { order "position ASC" }
   has_many :videos, through: :my_queues
+  has_many :following_relationships, class_name: 'Relationship', foreign_key: 'follower_id'
+  has_many :leading_relationships, class_name: 'Relationship', foreign_key: 'leader_id'
   validates_presence_of :email, :full_name, :password
   validates_uniqueness_of :email
 
@@ -15,5 +17,10 @@ class User < ApplicationRecord
 
   def queued_video?(video)
     my_queues.map(&:video).include?(video)
+  end
+
+  def can_follow?(another_user)
+    !following_relationships.map(&:leader).include?(another_user) &&
+      self != another_user
   end
 end

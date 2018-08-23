@@ -41,3 +41,7 @@ VideoReview.create user: user1, video: Video.first, rating: 3, review: 'The best
 VideoReview.create user: user2, video: Video.first, rating: 4, review: 'Really the best series'
 
 MyQueue.create video: Video.first, user: user1, position: 1
+MyQueue.create video: Video.first, user: user2, position: 1
+MyQueue.create video: Video.second, user: user2, position: 2
+Relationship.create leader: user1, follower: user2
+Relationship.create leader: user2, follower: user1

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post '/login'  => 'sessions#create'
   get '/logout'  => 'sessions#destroy', as: 'logout'
   post '/update_queue' => 'my_queues#update_queue', as: 'update_queue'
+  get '/people' => 'relationships#index', as: 'people'
   
   resources :videos, only: %i[index show] do
     collection do
@@ -22,6 +23,5 @@ Rails.application.routes.draw do
   resources :categories, only: :show
   resources :users, only: %i[index new create show]
   resources :my_queues, only: %i[index create destroy]
-
-  get '/people' => 'relationships#index', as: 'people'
+  resources :relationships, only: %i[create destroy]
 end
