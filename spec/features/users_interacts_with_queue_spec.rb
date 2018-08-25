@@ -8,7 +8,7 @@ feature 'User interacts with the queue' do
     futurama = Fabricate(:video, title: 'Futurama', category: comedies)
 
     sign_in
-    find("a[href='/videos/#{monk.id}']").click
+    click_video_on_homepage(monk)
     expect(page).to have_content monk.title
 
     click_link '+ My Queue'
@@ -18,11 +18,11 @@ feature 'User interacts with the queue' do
     expect(page).not_to have_content '+ My Queue'
 
     visit home_path
-    find("a[href='/videos/#{south_park.id}']").click
+    click_video_on_homepage(south_park)
     click_link '+ My Queue'
 
     visit home_path
-    find("a[href='/videos/#{futurama.id}']").click
+    click_video_on_homepage(futurama)
     click_link '+ My Queue'
 
     find("input[data-video-id='#{monk.id}']").set(3)
