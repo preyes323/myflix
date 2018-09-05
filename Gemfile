@@ -46,6 +46,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'launchy'
   gem 'rspec-rails', '~>3.7'
+  gem 'letter_opener'
 end
 
 group :development do
