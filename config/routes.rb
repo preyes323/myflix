@@ -3,13 +3,13 @@ Rails.application.routes.draw do
   root 'pages#front_page'
   
   get 'ui(/:action)', controller: 'ui'
-  get '/home'    => 'videos#index', as: 'home'
-  get '/login'   => 'sessions#new', as: 'login'
-  post '/login'  => 'sessions#create'
-  get '/logout'  => 'sessions#destroy', as: 'logout'
-  post '/update_queue' => 'my_queues#update_queue', as: 'update_queue'
-  get '/people' => 'relationships#index', as: 'people'
-  get '/forgot_password' => 'forgot_password#new', as: 'forgot_password'
+  get '/home'             => 'videos#index',           as: 'home'
+  get '/login'            => 'sessions#new',           as: 'login'
+  post '/login'           => 'sessions#create'
+  get '/logout'           => 'sessions#destroy',       as: 'logout'
+  post '/update_queue'    => 'my_queues#update_queue', as: 'update_queue'
+  get '/people'           => 'relationships#index',    as: 'people'
+  get '/forgot_password'  => 'forgot_passwords#new',   as: 'forgot_password'
   
   
   resources :videos, only: %i[index show] do
