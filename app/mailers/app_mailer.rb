@@ -7,6 +7,7 @@ class AppMailer < ApplicationMailer
   end
 
   def send_forgot_password(user)
-    mail to: user.email, subject: 'Please reset your password'
+    @user = user
+    mail to: @user.email, subject: 'Please reset your password'
   end
 end

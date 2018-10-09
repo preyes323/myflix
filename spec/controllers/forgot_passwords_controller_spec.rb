@@ -29,6 +29,7 @@ RSpec.describe ForgotPasswordsController do
         expect(ActionMailer::Base.deliveries.last.to).to eq(['joe@example.com'])
       end
     end
+    
     context 'with non-existing email' do
       it 'redirects to the forgot password page' do
         post :create, params: { email: 'joe@example.com' }

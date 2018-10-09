@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
   has_secure_password
 
+  before_create :generate_token
+  
   def normalize_my_queue_positions
     my_queues.each_with_index do |queue_item, idx|
       queue_item.update_attribute('position', idx + 1)
@@ -22,5 +24,11 @@ class User < ApplicationRecord
   def can_follow?(another_user)
     !following_relationships.map(&:leader).include?(another_user) &&
       self != another_user
+  end
+
+  private
+  
+  def generate_token
+    self.token = SecureRandom.urlsafe_base64
   end
 end
