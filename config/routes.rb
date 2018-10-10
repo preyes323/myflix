@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get '/people'                        => 'relationships#index',      as: 'people'
   get '/forgot_password'               => 'forgot_passwords#new',     as: 'forgot_password'
   get '/forgot_password_confirmation'  => 'forgot_passwords#confirm', as: 'forgot_password_confirmation'
+  get '/expired_token'                 => 'password_resets#expired',  as: 'expired_token'
   
   resources :videos, only: %i[index show] do
     collection do
@@ -27,5 +28,5 @@ Rails.application.routes.draw do
   resources :my_queues, only: %i[index create destroy]
   resources :relationships, only: %i[create destroy]
   resources :forgot_passwords, only: %i[create]
-  resources :password_resets, only: %i[show]
+  resources :password_resets, only: %i[show create]
 end
