@@ -71,6 +71,7 @@ Rails.application.configure do
                                         user_name: ENV['GMAIL_USERNAME'],
                                         password: ENV['GMAIL_PASSWORD']
                                        }
+  config.action_mailer.default_url_options = { host: 'https://fast-escarpment-32116.herokuapp.com' }  
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
