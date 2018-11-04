@@ -10,6 +10,7 @@ require 'rspec/rails'
 # require all files under ./spec/support
 Dir["./spec/support/**/*.rb"].sort.each { |f| require f }
 require 'capybara/rspec'
+require 'capybara/email/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
