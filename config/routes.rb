@@ -29,4 +29,5 @@ Rails.application.routes.draw do
   resources :relationships, only: %i[create destroy]
   resources :forgot_passwords, only: %i[create]
   resources :password_resets, only: %i[show create]
+  resources :invitations, only: %i[new]
 end
