@@ -74,4 +74,20 @@ RSpec.describe UsersController do
       expect(assigns(:user)).to eq(alice)
     end
   end
+
+  describe 'GET new_with_invitation_token' do
+    it 'renders :new template' do
+      invitation = Fabricate(:invitation)
+      get :new_with_invitation_token, params: { token: invitation.token }
+      expect(response).to render_template :new
+    end
+    
+    it 'sets @user with recipients email' do
+      invitation = Fabricate(:invitation)
+      get :new_with_invitation_token, params: { token: invitation.token }
+      expect(assigns(:user).email).to eq(invitation.recipient_email)
+    end
+    
+    it 'redirects to expired token page for invalid tokens'
+  end
 end

@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get '/forgot_password'               => 'forgot_passwords#new',     as: 'forgot_password'
   get '/forgot_password_confirmation'  => 'forgot_passwords#confirm', as: 'forgot_password_confirmation'
   get '/expired_token'                 => 'password_resets#expired',  as: 'expired_token'
+  get '/register'                      => 'users#new',                as: 'register'
+  get '/register/:token'               => 'users#new_with_invitation_token', as: 'register_with_token'
   
   resources :videos, only: %i[index show] do
     collection do
