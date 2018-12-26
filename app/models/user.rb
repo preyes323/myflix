@@ -21,11 +21,18 @@ class User < ApplicationRecord
     my_queues.map(&:video).include?(video)
   end
 
+  def follows?(another_user)
+    following_relationships.map(&:leader).include?(another_user)
+  end
+  
   def can_follow?(another_user)
-    !following_relationships.map(&:leader).include?(another_user) &&
-      self != another_user
+    !follows?(another_user) && self != another_user
   end
 
+  def follow(another_user)
+    following_relationships.create(leader: another_user) if can_follow?(another_user)
+  end
+  
   private
   
   def generate_token
