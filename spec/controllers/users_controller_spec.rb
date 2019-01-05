@@ -11,7 +11,7 @@ RSpec.describe UsersController do
   describe 'POST create' do
     context 'with valid input' do
       before do
-        post :create, params: { user: Fabricate.attributes_for(:user) }
+        post :create, params: { user: Fabricate.attributes_for(:user), invitation_token: '' }
       end
       
       it 'creates the user' do
@@ -49,7 +49,7 @@ RSpec.describe UsersController do
     
     context 'with invalid input' do
       before do
-        post :create, params: { user: { password: '123456', full_name: 'foo bar' } }
+        post :create, params: { user: { password: '123456', full_name: 'foo bar' }, invitation_token: '' }
       end
       
       it 'does not create the user' do

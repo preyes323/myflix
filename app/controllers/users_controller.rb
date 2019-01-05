@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   end
 
   def handle_invitation
-    if params[:invitation_token].empty?
+    if params[:invitation_token] && !params[:invitation_token].empty?
       invitation = Invitation.find_by_token params[:invitation_token]
       @user.follow(invitation.inviter)
       invitation.inviter.follow(@user)
