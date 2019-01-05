@@ -7,9 +7,8 @@ RSpec.describe User do
   it { should have_secure_password }
   it { should have_many(:my_queues).order('position ASC') }
 
-  it 'generates a random token when the user is created' do
-    alice = Fabricate(:user)
-    expect(alice.token).to be_present
+  it_behaves_like 'tokenable' do
+    let(:object) { Fabricate(:user) }     
   end
 
   describe '#queued_video?' do
